@@ -18,21 +18,21 @@ namespaces.forEach(namespace => {
 		console.log(`${nsSocket.id} has joined ${namespace.endpoint}`);
 		// socket connected to our namespaces
 		// send that ns group info back
-		nsSocket.emit('nsRoomLoad', namespaces[0].rooms);
+		nsSocket.emit('nsRoomLoad', namespaces.rooms);
 		nsSocket.on('joinRoom', roomToJoin => {
 			// deal with history later
 			// Join the room
 			nsSocket.join(roomToJoin); // the event joinRoom joins a socket to the room
-			const nsRoom = namespaces[0].rooms.find(room => {
+			const nsRoom = namespaces.rooms.find(room => {
 				// When true, returns the room object
 				return room.roomTitle === roomToJoin;
 			});
 			nsSocket.emit('historyCatchup', nsRoom.history);
 			// Send back the number of users in this room to ALL sockets conencted to this room
-			io.of('/wiki')
+			io.of(namespace.endpoint)
 				.in(roomToJoin)
 				.clients((error, clients) => {
-					io.of('/wiki')
+					io.of(namespace.endpoint)
 						.in(roomToJoin)
 						.emit('updateMembers', clients.length);
 				});
@@ -51,12 +51,12 @@ namespaces.forEach(namespace => {
 			// get the keys
 			const roomTitle = Object.keys(nsSocket.rooms)[1];
 			// Need to find the room object for this room
-			const nsRoom = namespaces[0].rooms.find(room => {
+			const nsRoom = namespaces.rooms.find(room => {
 				// When true, returns the room object
 				return room.roomTitle === roomTitle;
 			});
 			nsRoom.addMessage(fullMsg);
-			io.of('/wiki')
+			io.of(namespace.endpoint)
 				.to(roomTitle)
 				.emit('messageToClients', fullMsg);
 		});

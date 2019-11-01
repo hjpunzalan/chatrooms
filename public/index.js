@@ -8,6 +8,7 @@ socket.on('nsList', nsData => {
 	namespacesDiv.innerHTML = '';
 	nsData.forEach(ns => {
 		namespacesDiv.innerHTML += `<div class="namespace" ns=${ns.endpoint}><img src="${ns.img}"/></div>`;
+		joinNamespace(ns.endpoint);
 	});
 
 	// Add a click listener to all the namespace
@@ -19,5 +20,4 @@ socket.on('nsList', nsData => {
 			console.log(`${nsEndPoint} I should go to now`);
 		});
 	});
-	joinNamespace('/wiki');
 });
