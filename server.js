@@ -22,14 +22,20 @@ namespaces.forEach(namespace => {
 		nsSocket.on('joinRoom', (roomToJoin, nMembers) => {
 			// deal with history later
 			// Join the room
-			nsSocket.join(roomToJoin);
+			nsSocket.join(roomToJoin); // the event joinRoom joins a socket to the room
 			io.of('/wiki')
-				.in(roomToJoin)
+				.in(roomToJoin) //returns method available from the room
 				.clients((error, clients) => {
 					nMembers(clients.length); // return number of users
 				});
 		});
 		nsSocket.on('newMessageToServer', msg => {
+			const fullMsg = {
+				text: msg,
+				time: Date.now(),
+				username: 'jpunzalan',
+				avatar: 'https://via.placeholder.com/30'
+			};
 			// Send this message to All the sockets that are in the room that THIS socket is in
 			// console.log(nsSocket.rooms);
 			// The user will be in the 2nd room in the object list
@@ -38,7 +44,7 @@ namespaces.forEach(namespace => {
 			const roomTitle = Object.keys(nsSocket.rooms)[1];
 			io.of('/wiki')
 				.to(roomTitle)
-				.emit('messageToClients', msg);
+				.emit('messageToClients', fullMsg);
 		});
 	});
 });

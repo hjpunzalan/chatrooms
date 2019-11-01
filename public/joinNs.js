@@ -29,7 +29,8 @@ function joinNamespace(endpoint) {
 
 	// Listens message from server
 	nsSocket.on('messageToClients', msg => {
-		document.querySelector('#messages').innerHTML += `<li>${msg.text}</li>`;
+		const newMsg = buildHTML(msg);
+		document.querySelector('#messages').innerHTML += newMsg;
 	});
 
 	// Adding handler to the form
@@ -37,9 +38,28 @@ function joinNamespace(endpoint) {
 		event.preventDefault();
 		const message = document.querySelector('#user-message');
 		let newMessage = message.value;
-		nsSocket.emit('newMessageToServer', {
-			text: newMessage
-		});
+		nsSocket.emit('newMessageToServer', newMessage);
 		message.value = '';
 	});
+}
+
+function buildHTML(msg) {
+	const convertedDate = new Date(msg.time).toLocaleTimeString('en-US', {
+		hour: '2-digit',
+		minute: '2-digit'
+	});
+	return `
+	<li>
+		<div class="user-image">
+			<img src="${msg.avatar}" />
+		</div>
+		<div class="user-message">
+			<div class="user-name-time">
+				${msg.username} <span>${convertedDate}</span>
+			</div>
+			<div class="message-text">
+				${msg.text}
+			</div>
+		</div>
+	</li>`;
 }
