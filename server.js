@@ -25,14 +25,15 @@ io.on('connection', socket => {
 	socket.on('messageToServer', dataFromClient => {
 		console.log(dataFromClient);
 	});
-
-	socket.join('level1');
-	socket
-		.to('level1')
-		.emit('joined', `${socket.id} says I have joined the level 1 room!`);
+	// // How to join rooms
+	// socket.join('level1');
+	// Send event for room
+	// socket
+	// 	.to('level1')
+	// 	.emit('joined', `${socket.id} says I have joined the level 1 room!`);
 });
 
 // Connected to the admin namespace
-io.of('/admin').on('connection', socket => {
-	socket.emit('welcome', 'Someone connected to the admin namespace!');
-});
+// io.of('/admin').on('connection', socket => {
+// 	socket.emit('welcome', 'Someone connected to the admin namespace!');
+// });
