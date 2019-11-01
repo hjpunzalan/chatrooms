@@ -18,6 +18,23 @@ socket.on('nsList', nsData => {
 			console.log(`${nsEndPoint} I should go to now`);
 		});
 	});
+
+	// Connect socket for each namespace
+	const nsSocket = io(`http://localhost:8000/wiki`);
+	nsSocket.on('nsRoomLoad', nsrooms => {
+		let roomList = document.querySelector('.room-list');
+		roomList.innerHTML = '';
+		nsrooms.forEach(room => {
+			roomList.innerHTML += `<li>
+			${
+				room.privateRoom
+					? '<i class="fa fa-lock" aria-hidden="true"></i>'
+					: '<i class="fa fa-slack" aria-hidden="true"></i>'
+			}
+			${room.roomTitle}
+			</li>`;
+		});
+	});
 });
 
 // Adding handler to the form

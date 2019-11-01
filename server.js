@@ -14,8 +14,11 @@ const io = socketio(server);
 
 // loop through each namespace and listen for a connection
 namespaces.forEach(namespace => {
-	io.of(namespace.endpoint).on('connection', socket => {
-		console.log(`${socket.id} has joined ${namespace.endpoint}`);
+	io.of(namespace.endpoint).on('connection', nsSocket => {
+		console.log(`${nsSocket.id} has joined ${namespace.endpoint}`);
+		// socket connected to our namespaces
+		// send that ns group info back
+		nsSocket.emit('nsRoomLoad', namespaces[0].rooms);
 	});
 });
 
