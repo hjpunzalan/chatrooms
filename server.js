@@ -19,6 +19,14 @@ namespaces.forEach(namespace => {
 		// socket connected to our namespaces
 		// send that ns group info back
 		nsSocket.emit('nsRoomLoad', namespaces[0].rooms);
+		nsSocket.on('joinRoom', roomToJoin => {
+			// deal with history later
+			// Join the room
+			nsSocket.join(roomToJoin);
+			io.of('/wiki')
+				.in(roomToJoin)
+				.clients((error, clients) => {});
+		});
 	});
 });
 
@@ -35,8 +43,3 @@ io.on('connection', socket => {
 	// using io sends it to everyone, socket sends it to the person connecting
 	socket.emit('nsList', nsData);
 });
-
-// Connected to the admin namespace
-// io.of('/admin').on('connection', socket => {
-// 	socket.emit('welcome', 'Someone connected to the admin namespace!');
-// });

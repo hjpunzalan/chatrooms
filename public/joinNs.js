@@ -1,6 +1,6 @@
 // Connect socket for each namespace
 function joinNamespace(endpoint) {
-	const nsSocket = io(`http://localhost:8000${endpoint}`);
+	nsSocket = io(`http://localhost:8000${endpoint}`);
 	nsSocket.on('nsRoomLoad', nsrooms => {
 		let roomList = document.querySelector('.room-list');
 		roomList.innerHTML = '';
@@ -20,6 +20,11 @@ function joinNamespace(endpoint) {
 				console.log(e.target.innerText);
 			});
 		});
+
+		// add room automatically... first time here
+		const topRoom = document.querySelector('.room'); // grab first li
+		const topRoomName = topRoom.innerText; // from li
+		joinRoom(topRoomName);
 	});
 
 	// Listens message from server
