@@ -55,12 +55,9 @@ function formSubmission(event) {
 }
 
 function buildHTML(msg) {
-	const convertedDate = new Date(msg.time).toLocaleTimeString('en-US', {
-		hour: '2-digit',
-		minute: '2-digit'
-	});
+	const convertedDate = new Date(msg.time).toLocaleString();
 	return `
-	<li>
+	<li class="message-body">
 		<div class="user-image">
 			<img src="${msg.avatar}" />
 		</div>

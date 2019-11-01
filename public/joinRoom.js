@@ -26,17 +26,17 @@ function joinRoom(roomName) {
 	// Handle search box
 	let searchBox = document.querySelector('#search-box');
 	searchBox.addEventListener('input', e => {
-		// Grab all messages made
-		let messages = Array.from(document.getElementsByClassName('message-text'));
+		// Grab all messages made / li elements
+		let messages = Array.from(document.querySelectorAll('.message-body'));
 		messages.forEach(msg => {
-			// Check if input is inside of each
-			if (
-				msg.innerText.toLowerCase().indexOf(e.target.value.toLowerCase()) === -1
-			) {
+			// Check if input is inside of each message
+			// Grab inner text from Li
+			const m = msg.childNodes[3].childNodes[3].innerText;
+			if (m.toLowerCase().indexOf(e.target.value.toLowerCase()) === -1) {
 				// the msg does not contain the user search item
 				msg.style.display = 'none';
 			} else {
-				msg.style.display = 'block';
+				msg.style.display = 'flex';
 			}
 		});
 	});

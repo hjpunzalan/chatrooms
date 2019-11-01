@@ -15,7 +15,7 @@ const io = socketio(server);
 // loop through each namespace and listen for a connection
 namespaces.forEach(namespace => {
 	io.of(namespace.endpoint).on('connection', nsSocket => {
-		console.log(`${nsSocket.id} has joined ${namespace.endpoint}`);
+		const username = nsSocket.handshake.query.username;
 		// socket connected to our namespaces
 		// send that ns group info back
 		nsSocket.emit('nsRoomLoad', namespace.rooms);
@@ -39,7 +39,7 @@ namespaces.forEach(namespace => {
 			const fullMsg = {
 				text: msg,
 				time: Date.now(),
-				username: 'jpunzalan',
+				username,
 				avatar: 'https://via.placeholder.com/30'
 			};
 			// Send this message to All the sockets that are in the room that THIS socket is in
