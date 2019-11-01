@@ -22,20 +22,18 @@ namespaces.forEach(namespace => {
 		nsSocket.on('joinRoom', roomToJoin => {
 			// deal with history later
 			// Join the room
+
+			// Before joining, leave previous room first to avoid polluting previous rooom msgs
+			const prevRoomTitle = Object.keys(nsSocket.rooms)[1];
+			nsSocket.leave(prevRoomTitle);
+			updateUsersInRoom(namespace, prevRoomTitle);
 			nsSocket.join(roomToJoin); // the event joinRoom joins a socket to the room
 			const nsRoom = namespace.rooms.find(room => {
 				// When true, returns the room object
 				return room.roomTitle === roomToJoin;
 			});
 			nsSocket.emit('historyCatchup', nsRoom.history);
-			// Send back the number of users in this room to ALL sockets conencted to this room
-			io.of(namespace.endpoint)
-				.in(roomToJoin)
-				.clients((error, clients) => {
-					io.of(namespace.endpoint)
-						.in(roomToJoin)
-						.emit('updateMembers', clients.length);
-				});
+			updateUsersInRoom(namespace, roomToJoin);
 		});
 		nsSocket.on('newMessageToServer', msg => {
 			const fullMsg = {
@@ -76,3 +74,14 @@ io.on('connection', socket => {
 	// using io sends it to everyone, socket sends it to the person connecting
 	socket.emit('nsList', nsData);
 });
+
+function updateUsersInRoom(namespace, roomToJoin) {
+	// Send back the number of users in this room to ALL sockets conencted to this room
+	io.of(namespace.endpoint)
+		.in(roomToJoin)
+		.clients((error, clients) => {
+			io.of(namespace.endpoint)
+				.in(roomToJoin)
+				.emit('updateMembers', clients.length);
+		});
+}
