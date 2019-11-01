@@ -1,14 +1,23 @@
 const express = require('express');
 const socketio = require('socket.io');
+const namespaces = require('./data/namespaces');
 
+// Initialise express
 const app = express();
-
 app.use(express.static(__dirname + '/public'));
 
+// Declare server
 const server = app.listen(8000, () => {
 	console.log('Listening at port 8000...');
 });
 const io = socketio(server);
+
+// loop through each namespace and listen for a connection
+namespaces.forEach(namespace => {
+	io.of(namespace.endpoint).on('connection', socket => {
+		console.log(`${socket.id} has joined ${namespace.endpoint}`);
+	});
+});
 
 // Connected to the main namespace '/'
 io.on('connection', socket => {
