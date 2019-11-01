@@ -4,7 +4,7 @@ body {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 h3 {
@@ -39,16 +39,22 @@ h3 {
 
 .room-list {
   padding-left: 0px;
+  display: flex;
+  flex-direction: column;
 }
 
 .room-list li {
   cursor: pointer;
   list-style-type: none;
   padding: 0px 15px;
+  margin-bottom: 7px;
+  display: flex;
+  align-items: center;
 }
 
-.room-list li span {
+.room-list li i {
   margin-right: 5px;
+  width: 15px;
 }
 
 .room-list li.active {
@@ -63,6 +69,7 @@ h3 {
   width: 20%;
   padding: 20px 10px 0 10px;
   display: flex;
+  flex-direction: column;
 }
 
 .chat-panel {
@@ -145,7 +152,6 @@ h3 {
 input {
   width: 100%;
   height: 34px;
-  color: #abb2bf;
   border: 1px solid #3b4048;
   border-radius: 5px;
   padding: 0 5px;

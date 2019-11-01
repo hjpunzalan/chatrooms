@@ -16,12 +16,19 @@
 
     <div class="container">
         <div class="namespaces">
-            <!-- JS will update this dynamically!! -->
+            <div class="namespace" ns="/wiki"><img
+                    src="https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Wikipedia-logo-v2.svg/103px-Wikipedia-logo-v2.svg.png">
+            </div>
+            <div class="namespace" ns="/mozilla"><img
+                    src="https://www.mozilla.org/media/img/logos/firefox/logo-quantum.9c5e96634f92.png"></div>
+            <div class="namespace" ns="/linux"><img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png">
+            </div>
         </div>
         <div class="rooms">
             <h3>Rooms</h3>
             <ul class="room-list">
-                <!-- JS will update this dynamically!! -->
+                <li onclick="joinRoom(1,2)"><i class="fa fa-lock" aria-hidden="true"></i>Main Room</li>
+                <li onclick="joinRoom(2,1)"><i class="fa fa-slack" aria-hidden="true"></i>Meeting Room</li>
             </ul>
         </div>
         <div class="chat-panel">
