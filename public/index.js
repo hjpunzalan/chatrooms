@@ -25,12 +25,10 @@ socket.on('nsList', nsData => {
 		let roomList = document.querySelector('.room-list');
 		roomList.innerHTML = '';
 		nsrooms.forEach(room => {
+			let icon;
+			room.privateRoom ? (icon = 'lock') : (icon = 'slack');
 			roomList.innerHTML += `<li>
-			${
-				room.privateRoom
-					? '<i class="fa fa-lock" aria-hidden="true"></i>'
-					: '<i class="fa fa-slack" aria-hidden="true"></i>'
-			}
+			<i class="fa fa-${icon}" aria-hidden="true"></i>
 			${room.roomTitle}
 			</li>`;
 		});
