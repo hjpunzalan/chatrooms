@@ -22,4 +22,22 @@ function joinRoom(roomName) {
 		// update number of members total
 		document.querySelector('.curr-room-text').innerText = roomName;
 	});
+
+	// Handle search box
+	let searchBox = document.querySelector('#search-box');
+	searchBox.addEventListener('input', e => {
+		// Grab all messages made
+		let messages = Array.from(document.getElementsByClassName('message-text'));
+		messages.forEach(msg => {
+			// Check if input is inside of each
+			if (
+				msg.innerText.toLowerCase().indexOf(e.target.value.toLowerCase()) === -1
+			) {
+				// the msg does not contain the user search item
+				msg.style.display = 'none';
+			} else {
+				msg.style.display = 'block';
+			}
+		});
+	});
 }
