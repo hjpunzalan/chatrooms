@@ -21,16 +21,16 @@ namespaces.forEach(namespace => {
 
 // Connected to the main namespace '/'
 io.on('connection', socket => {
-	socket.emit('messageFromServer', { data: 'Welcome to the socket io server' });
-	socket.on('messageToServer', dataFromClient => {
-		console.log(dataFromClient);
+	// build an array to send  back with the img and endpoint for each NS
+	let nsData = namespaces.map(ns => {
+		return {
+			img: ns.img,
+			endpoint: ns.endpoint
+		};
 	});
-	// // How to join rooms
-	// socket.join('level1');
-	// Send event for room
-	// socket
-	// 	.to('level1')
-	// 	.emit('joined', `${socket.id} says I have joined the level 1 room!`);
+	// Send the nsData back to client. Need to use socket and NOT io, because we want it to go to just this client
+	// using io sends it to everyone, socket sends it to the person connecting
+	socket.emit('nsList', nsData);
 });
 
 // Connected to the admin namespace
