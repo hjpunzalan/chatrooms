@@ -19,13 +19,15 @@ namespaces.forEach(namespace => {
 		// socket connected to our namespaces
 		// send that ns group info back
 		nsSocket.emit('nsRoomLoad', namespaces[0].rooms);
-		nsSocket.on('joinRoom', roomToJoin => {
+		nsSocket.on('joinRoom', (roomToJoin, nMembers) => {
 			// deal with history later
 			// Join the room
 			nsSocket.join(roomToJoin);
 			io.of('/wiki')
 				.in(roomToJoin)
-				.clients((error, clients) => {});
+				.clients((error, clients) => {
+					nMembers(clients.length);
+				});
 		});
 	});
 });
