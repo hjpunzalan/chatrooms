@@ -19,5 +19,7 @@ function joinRoom(roomName) {
 		document.querySelector(
 			'.curr-room-num-users'
 		).innerHTML = `${nMembers} <i class="fa fa-user" aria-hidden="true"></i>`;
+		// update number of members total
+		document.querySelector('.curr-room-text').innerText = roomName;
 	});
 }
