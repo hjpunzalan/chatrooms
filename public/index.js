@@ -18,36 +18,5 @@ socket.on('nsList', nsData => {
 			console.log(`${nsEndPoint} I should go to now`);
 		});
 	});
-
-	// Connect socket for each namespace
-	const nsSocket = io(`http://localhost:8000/wiki`);
-	nsSocket.on('nsRoomLoad', nsrooms => {
-		let roomList = document.querySelector('.room-list');
-		roomList.innerHTML = '';
-		nsrooms.forEach(room => {
-			let icon;
-			room.privateRoom ? (icon = 'lock') : (icon = 'slack');
-			roomList.innerHTML += `<li class="room">
-			<i class="fa fa-${icon}" aria-hidden="true"></i>
-			${room.roomTitle}
-			</li>`;
-		});
-
-		// add click listener to each room
-		let roomNodes = document.getElementsByClassName('room');
-		Array.from(roomNodes).forEach(elem => {
-			elem.addEventListener('click', e => {
-				console.log(e.target.innerText);
-			});
-		});
-	});
+	joinNamespace('/wiki');
 });
-
-// Adding handler to the form
-// document.querySelector('#message-form').addEventListener('submit', event => {
-// 	event.preventDefault();
-// 	const newMessage = document.querySelector('#user-message').value;
-// 	socket.emit('newMessageToServer', {
-// 		text: newMessage
-// 	});
-// });
