@@ -1,12 +1,7 @@
 // Whenever user joins a different room
 function joinRoom(roomName) {
 	// Send this roomName to the server
-	nsSocket.emit('joinRoom', roomName, nMembers => {
-		// update number of members total
-		document.querySelector(
-			'.curr-room-num-users'
-		).innerHTML = `${nMembers} <i class="fa fa-user" aria-hidden="true"></i>`;
-	});
+	nsSocket.emit('joinRoom', roomName);
 
 	nsSocket.on('historyCatchup', history => {
 		const messagesList = document.querySelector('#messages');
@@ -17,5 +12,12 @@ function joinRoom(roomName) {
 			messagesList.innerHTML = currentMessages + newMsg; // Add message from history
 		});
 		messagesList.scrollTo(0, messagesList.scrollHeight);
+	});
+
+	nsSocket.on('updateMembers', nMembers => {
+		// update number of members total
+		document.querySelector(
+			'.curr-room-num-users'
+		).innerHTML = `${nMembers} <i class="fa fa-user" aria-hidden="true"></i>`;
 	});
 }

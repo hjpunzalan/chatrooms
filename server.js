@@ -19,20 +19,23 @@ namespaces.forEach(namespace => {
 		// socket connected to our namespaces
 		// send that ns group info back
 		nsSocket.emit('nsRoomLoad', namespaces[0].rooms);
-		nsSocket.on('joinRoom', (roomToJoin, nMembers) => {
+		nsSocket.on('joinRoom', roomToJoin => {
 			// deal with history later
 			// Join the room
 			nsSocket.join(roomToJoin); // the event joinRoom joins a socket to the room
-			io.of('/wiki')
-				.in(roomToJoin) //returns method available from the room
-				.clients((error, clients) => {
-					nMembers(clients.length); // return number of users
-				});
 			const nsRoom = namespaces[0].rooms.find(room => {
 				// When true, returns the room object
 				return room.roomTitle === roomToJoin;
 			});
 			nsSocket.emit('historyCatchup', nsRoom.history);
+			// Send back the number of users in this room to ALL sockets conencted to this room
+			io.of('/wiki')
+				.in(roomToJoin)
+				.clients((error, clients) => {
+					io.of('/wiki')
+						.in(roomToJoin)
+						.emit('updateMembers', clients.length);
+				});
 		});
 		nsSocket.on('newMessageToServer', msg => {
 			const fullMsg = {
