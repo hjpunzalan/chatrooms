@@ -1,0 +1,26 @@
+{
+  "name": "chatrooms",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hjpunzalan/chatrooms.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hjpunzalan/chatrooms/issues"
+  },
+  "homepage": "https://github.com/hjpunzalan/chatrooms#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^1.19.4",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {}
+}
