@@ -27,10 +27,18 @@ socket.on('nsList', nsData => {
 		nsrooms.forEach(room => {
 			let icon;
 			room.privateRoom ? (icon = 'lock') : (icon = 'slack');
-			roomList.innerHTML += `<li>
+			roomList.innerHTML += `<li class="room">
 			<i class="fa fa-${icon}" aria-hidden="true"></i>
 			${room.roomTitle}
 			</li>`;
+		});
+
+		// add click listener to each room
+		let roomNodes = document.getElementsByClassName('room');
+		Array.from(roomNodes).forEach(elem => {
+			elem.addEventListener('click', e => {
+				console.log(e.target.innerText);
+			});
 		});
 	});
 });
