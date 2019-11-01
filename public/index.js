@@ -8,7 +8,6 @@ socket.on('nsList', nsData => {
 	namespacesDiv.innerHTML = '';
 	nsData.forEach(ns => {
 		namespacesDiv.innerHTML += `<div class="namespace" ns=${ns.endpoint}><img src="${ns.img}"/></div>`;
-		joinNamespace(ns.endpoint);
 	});
 
 	// Add a click listener to all the namespace
@@ -17,7 +16,8 @@ socket.on('nsList', nsData => {
 		elem.addEventListener('click', e => {
 			// Get ns attribute from div ie.elem
 			const nsEndPoint = elem.getAttribute('ns');
-			console.log(`${nsEndPoint} I should go to now`);
+			joinNamespace(nsEndPoint);
 		});
 	});
+	joinNamespace(nsData[0].endpoint);
 });

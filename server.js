@@ -18,12 +18,12 @@ namespaces.forEach(namespace => {
 		console.log(`${nsSocket.id} has joined ${namespace.endpoint}`);
 		// socket connected to our namespaces
 		// send that ns group info back
-		nsSocket.emit('nsRoomLoad', namespaces.rooms);
+		nsSocket.emit('nsRoomLoad', namespace.rooms);
 		nsSocket.on('joinRoom', roomToJoin => {
 			// deal with history later
 			// Join the room
 			nsSocket.join(roomToJoin); // the event joinRoom joins a socket to the room
-			const nsRoom = namespaces.rooms.find(room => {
+			const nsRoom = namespace.rooms.find(room => {
 				// When true, returns the room object
 				return room.roomTitle === roomToJoin;
 			});
@@ -51,7 +51,7 @@ namespaces.forEach(namespace => {
 			// get the keys
 			const roomTitle = Object.keys(nsSocket.rooms)[1];
 			// Need to find the room object for this room
-			const nsRoom = namespaces.rooms.find(room => {
+			const nsRoom = namespace.rooms.find(room => {
 				// When true, returns the room object
 				return room.roomTitle === roomTitle;
 			});

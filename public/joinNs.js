@@ -1,5 +1,13 @@
 // Connect socket for each namespace
 function joinNamespace(endpoint) {
+	// Check if connection is not in use
+	if (nsSocket) {
+		nsSocket.close();
+		// removed the eventListener before it's added again
+		document
+			.querySelector('#user-input')
+			.removeEventListener('submit', formSubmission);
+	}
 	nsSocket = io(`http://localhost:8000${endpoint}`);
 	nsSocket.on('nsRoomLoad', nsrooms => {
 		let roomList = document.querySelector('.room-list');
@@ -34,13 +42,16 @@ function joinNamespace(endpoint) {
 	});
 
 	// Adding handler to the form
-	document.querySelector('.message-form').addEventListener('submit', event => {
-		event.preventDefault();
-		const message = document.querySelector('#user-message');
-		let newMessage = message.value;
-		nsSocket.emit('newMessageToServer', newMessage);
-		message.value = '';
-	});
+	document
+		.querySelector('.message-form')
+		.addEventListener('submit', formSubmission);
+}
+function formSubmission(event) {
+	event.preventDefault();
+	const message = document.querySelector('#user-message');
+	let newMessage = message.value;
+	nsSocket.emit('newMessageToServer', newMessage);
+	message.value = '';
 }
 
 function buildHTML(msg) {
