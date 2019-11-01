@@ -1,6 +1,6 @@
 // Bring in the room class
-const Namespace = require('../classes/Namespace');
-const Room = require('../classes/Room');
+const Namespace = require('../models/Namespace.js');
+const Room = require('../models/Room');
 
 // Set up the namespaces
 let namespaces = [];
