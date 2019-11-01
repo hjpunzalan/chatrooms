@@ -26,8 +26,19 @@ namespaces.forEach(namespace => {
 			io.of('/wiki')
 				.in(roomToJoin)
 				.clients((error, clients) => {
-					nMembers(clients.length);
+					nMembers(clients.length); // return number of users
 				});
+		});
+		nsSocket.on('newMessageToServer', msg => {
+			// Send this message to All the sockets that are in the room that THIS socket is in
+			// console.log(nsSocket.rooms);
+			// The user will be in the 2nd room in the object list
+			// this is because the socket ALWAYS joins its own room on connection (1st room)
+			// get the keys
+			const roomTitle = Object.keys(nsSocket.rooms)[1];
+			io.of('/wiki')
+				.to(roomTitle)
+				.emit('messageToClients', msg);
 		});
 	});
 });

@@ -35,9 +35,11 @@ function joinNamespace(endpoint) {
 	// Adding handler to the form
 	document.querySelector('.message-form').addEventListener('submit', event => {
 		event.preventDefault();
-		const newMessage = document.querySelector('#user-message').value;
-		socket.emit('newMessageToServer', {
+		const message = document.querySelector('#user-message');
+		let newMessage = message.value;
+		nsSocket.emit('newMessageToServer', {
 			text: newMessage
 		});
+		message.value = '';
 	});
 }
