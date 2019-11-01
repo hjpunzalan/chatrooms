@@ -28,6 +28,11 @@ namespaces.forEach(namespace => {
 				.clients((error, clients) => {
 					nMembers(clients.length); // return number of users
 				});
+			const nsRoom = namespaces[0].rooms.find(room => {
+				// When true, returns the room object
+				return room.roomTitle === roomToJoin;
+			});
+			nsSocket.emit('historyCatchup', nsRoom.history);
 		});
 		nsSocket.on('newMessageToServer', msg => {
 			const fullMsg = {
@@ -42,6 +47,12 @@ namespaces.forEach(namespace => {
 			// this is because the socket ALWAYS joins its own room on connection (1st room)
 			// get the keys
 			const roomTitle = Object.keys(nsSocket.rooms)[1];
+			// Need to find the room object for this room
+			const nsRoom = namespaces[0].rooms.find(room => {
+				// When true, returns the room object
+				return room.roomTitle === roomTitle;
+			});
+			nsRoom.addMessage(fullMsg);
 			io.of('/wiki')
 				.to(roomTitle)
 				.emit('messageToClients', fullMsg);

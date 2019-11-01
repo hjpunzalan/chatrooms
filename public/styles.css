@@ -164,14 +164,15 @@ input {
   padding: 0;
   color: #3b4048;
   max-height: 85%;
-  overflow: scroll;
+  overflow: auto;
   line-height: 1.5rem;
 
 }
 
+/* 
 ::-webkit-scrollbar {
   display: none;
-}
+} */
 
 #messages li .user-image img {
   width: 30px;
