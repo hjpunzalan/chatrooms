@@ -7,7 +7,7 @@ const app = express();
 app.use(express.static(__dirname + '/public'));
 
 // Declare server
-const server = app.listen(8000, () => {
+const server = app.listen(process.env.PORT || 8000, () => {
 	console.log('Listening at port 8000...');
 });
 const io = socketio(server);
